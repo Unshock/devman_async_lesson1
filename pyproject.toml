@@ -16,6 +16,9 @@ asyncio = "^3.4.3"
 [tool.poetry.scripts]
 starship = "starship.main:run_starship"
 
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

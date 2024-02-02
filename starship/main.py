@@ -8,7 +8,6 @@ TIC_TIMEOUT = 0.1 * 1
 
 def draw_border(canvas):
     canvas.border()
-    canvas.refresh()
 
 
 def draw(canvas):
@@ -16,7 +15,7 @@ def draw(canvas):
     max_y, max_x = canvas.getmaxyx()
 
     fire_shot_coroutine = fire(
-        canvas, start_row=max_y / 2, start_column=max_x / 2, rows_speed=-0.9
+        canvas, start_row=max_y // 2, start_column=max_x // 2, rows_speed=-0.9,
     )
 
     spaceship_coroutine = animate_spaceship(
@@ -30,15 +29,12 @@ def draw(canvas):
     coroutines += stars
 
     while True:
-
         for coroutine in coroutines.copy():
-
             try:
                 coroutine.send(None)
-
+                canvas.refresh()
             except StopIteration:
                 coroutines.remove(fire_shot_coroutine)
-
         time.sleep(TIC_TIMEOUT)
 
 

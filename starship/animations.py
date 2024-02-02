@@ -67,8 +67,11 @@ async def animate_spaceship(canvas, max_y, max_x, tics=2):
     rocket_frame_2 = read_from_file(
         os.path.join(os.path.dirname(__file__), 'frames/rocket_frame_2.txt'))
 
-    row = max_y // 2 - 2
-    column = max_x // 2 - 2
+    border_width = 1
+    rocket_height, rocket_width = get_frame_size(rocket_frame_1)
+
+    row = max_y // 2 - rocket_height // 2
+    column = max_x // 2 - rocket_width // 2
 
     for frame in itertools.cycle((rocket_frame_1, rocket_frame_2)):
 
@@ -81,18 +84,17 @@ async def animate_spaceship(canvas, max_y, max_x, tics=2):
 
             if rows_change or columns_change:
                 row = max(
-                    min(max_y - frame_height - 1,
-                        row + rows_change),
-                    1
+                    border_width,
+                    min(max_y - frame_height - border_width,
+                        row + rows_change)
                 )
-
                 column = max(
-                    min(max_x - frame_width - 1,
-                        column + columns_change),
-                    1
+                    border_width,
+                    min(max_x - frame_width - border_width,
+                        column + columns_change)
                 )
 
             draw_frame(canvas, row, column, frame)
-            canvas.refresh()
-            draw_frame(canvas, row, column, frame, negative=True)
             await asyncio.sleep(0)
+            draw_frame(canvas, row, column, frame, negative=True)
+
