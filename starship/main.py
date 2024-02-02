@@ -1,7 +1,7 @@
 import time
 import curses
-from animations import fire, animate_spaceship
-from drawing_tools import create_stars
+from starship.animations import fire, animate_spaceship
+from starship.drawing_tools import create_stars
 
 TIC_TIMEOUT = 0.1 * 1
 
@@ -42,8 +42,12 @@ def draw(canvas):
         time.sleep(TIC_TIMEOUT)
 
 
-if __name__ == '__main__':
+def run_starship():
     curses.update_lines_cols()
     curses.wrapper(draw_border)
     curses.curs_set(False)
     curses.wrapper(draw)
+
+
+if __name__ == '__main__':
+    run_starship()

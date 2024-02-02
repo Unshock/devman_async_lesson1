@@ -1,5 +1,5 @@
 from random import choice, randint
-from animations import blink
+from starship.animations import blink
 
 
 def get_random_star_coords(max_y, max_x):
