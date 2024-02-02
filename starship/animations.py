@@ -1,3 +1,4 @@
+import os
 import asyncio
 import curses
 import itertools
@@ -61,8 +62,10 @@ async def blink(canvas, row, column, symbol='*', start_pause=0):
 
 
 async def animate_spaceship(canvas, max_y, max_x, tics=2):
-    rocket_frame_1 = read_from_file('starship/frames/rocket_frame_1.txt')
-    rocket_frame_2 = read_from_file('starship/frames/rocket_frame_2.txt')
+    rocket_frame_1 = read_from_file(
+        os.path.join(os.path.dirname(__file__), 'frames/rocket_frame_1.txt'))
+    rocket_frame_2 = read_from_file(
+        os.path.join(os.path.dirname(__file__), 'frames/rocket_frame_2.txt'))
 
     row = max_y // 2 - 2
     column = max_x // 2 - 2
