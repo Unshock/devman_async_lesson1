@@ -3,7 +3,7 @@ Async module. Lesson 1.
 A demo of a starship flying in shining space
 
 ### Starship install
-The project exists on ***github*** and for usage could be installed using ***pip*** command:
+The project exists on **Github** and for usage could be installed using ***pip*** command:
 
     ~ $ python3 -m pip install --user git+https://github.com/Unshock/devman_async_lesson1.git
 
@@ -13,7 +13,7 @@ Run of the starship package is carried out by the command below:
     ~ $ starship
 
 ### Docker run
-The package also could be run with docker using command below:
+The package also could be run with **Docker** using command below:
     
     ~ $ docker run -it unshock/devmanasynclesson1
 
