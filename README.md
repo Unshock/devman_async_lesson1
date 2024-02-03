@@ -12,6 +12,11 @@ Run of the starship package is carried out by the command below:
     
     ~ $ starship
 
+### Docker run
+The package also could be run with docker using command below:
+    
+    ~ $ docker run -it unshock/devmanasynclesson1
+
 ### Built With
 
 * [Poetry](https://python-poetry.org/) - Python packaging and dependency management made easy 

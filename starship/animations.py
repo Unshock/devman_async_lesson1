@@ -64,7 +64,7 @@ async def blink(canvas, row, column, symbol='*', delay=0):
             await asyncio.sleep(0)
 
 
-async def animate_spaceship(canvas, tics=2, speed=1):
+async def animate_spaceship(canvas, border_width=1, tics=2, speed=1):
     """Display animation of flying starship"""
 
     rocket_frame_1 = read_from_file(
@@ -72,7 +72,6 @@ async def animate_spaceship(canvas, tics=2, speed=1):
     rocket_frame_2 = read_from_file(
         os.path.join(os.path.dirname(__file__), 'frames/rocket_frame_2.txt'))
 
-    border_width = 1
     rocket_height, rocket_width = get_frame_size(rocket_frame_1)
 
     max_y, max_x = canvas.getmaxyx()

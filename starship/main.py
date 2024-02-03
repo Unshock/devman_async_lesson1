@@ -17,6 +17,7 @@ def draw(canvas):
     """Draws blinking stars and flying starship"""
     stars_count = 150
     starship_speed = 1
+    border_width = 1
 
     max_stars_count = get_max_stars_count(canvas)
     stars_count = min(stars_count, max_stars_count)
@@ -25,7 +26,7 @@ def draw(canvas):
     mid_row = max_y // 2
     mid_column = max_x // 2
 
-    coroutines = create_stars(canvas, stars_count)
+    coroutines = create_stars(canvas, stars_count, border_width=border_width)
 
     fire_shot_coroutine = fire(
         canvas,
@@ -33,7 +34,11 @@ def draw(canvas):
         start_column=mid_column,
         rows_speed=-0.9
     )
-    spaceship_coroutine = animate_spaceship(canvas, speed=starship_speed)
+    spaceship_coroutine = animate_spaceship(
+        canvas,
+        border_width=border_width,
+        speed=starship_speed
+    )
 
     coroutines += [fire_shot_coroutine, spaceship_coroutine]
 

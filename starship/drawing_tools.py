@@ -24,14 +24,14 @@ def get_random_blink_delay(min_delay=1, max_delay=50) -> int:
     return randint(min_delay, max_delay)
 
 
-def create_stars(canvas, stars_count) -> list:
+def create_stars(canvas, stars_count, border_width=1) -> list:
     """Creates list of stars coroutines without overlapping"""
 
     stars_list = []
     stars_coords = []
 
     while len(stars_coords) < stars_count:
-        row, col = get_random_star_coords(canvas)
+        row, col = get_random_star_coords(canvas, border_width=border_width)
 
         if (row, col) in stars_coords:
             continue
