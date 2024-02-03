@@ -82,3 +82,13 @@ def get_frame_size(text):
     rows = len(lines)
     columns = max([len(line) for line in lines])
     return rows, columns
+
+
+def get_max_stars_count(canvas, border_width=1):
+    """
+    Calculate max stars count that can be fit on the canvas
+    without overlapping taking border width into account.
+    """
+
+    max_y, max_x = canvas.getmaxyx()
+    return (max_x - border_width * 2) * (max_y - border_width * 2)

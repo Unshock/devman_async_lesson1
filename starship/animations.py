@@ -1,7 +1,8 @@
 import os
-import asyncio
 import curses
 import itertools
+import asyncio
+
 from starship.common_tools import read_from_file
 from starship.curses_tools import read_controls, get_frame_size, draw_frame
 
@@ -37,8 +38,10 @@ async def fire(canvas, start_row, start_column, rows_speed=-0.3,
         column += columns_speed
 
 
-async def blink(canvas, row, column, symbol='*', start_pause=0):
-    for tic in range(start_pause):
+async def blink(canvas, row, column, symbol='*', delay=0):
+    """Display animation of blinking star"""
+
+    for tic in range(delay):
         canvas.addstr(row, column, symbol, curses.A_DIM)
         await asyncio.sleep(0)
 
@@ -61,7 +64,9 @@ async def blink(canvas, row, column, symbol='*', start_pause=0):
             await asyncio.sleep(0)
 
 
-async def animate_spaceship(canvas, max_y, max_x, tics=2):
+async def animate_spaceship(canvas, tics=2, speed=1):
+    """Display animation of flying starship"""
+
     rocket_frame_1 = read_from_file(
         os.path.join(os.path.dirname(__file__), 'frames/rocket_frame_1.txt'))
     rocket_frame_2 = read_from_file(
@@ -70,31 +75,33 @@ async def animate_spaceship(canvas, max_y, max_x, tics=2):
     border_width = 1
     rocket_height, rocket_width = get_frame_size(rocket_frame_1)
 
+    max_y, max_x = canvas.getmaxyx()
     row = max_y // 2 - rocket_height // 2
     column = max_x // 2 - rocket_width // 2
 
     for frame in itertools.cycle((rocket_frame_1, rocket_frame_2)):
-
         frame_height, frame_width = get_frame_size(frame)
 
         for tic in range(tics):
-
             canvas.nodelay(True)
             rows_change, columns_change, _ = read_controls(canvas)
 
-            if rows_change or columns_change:
+            if rows_change:
+                rows_change *= speed
+                max_frame_y = max_y - frame_height - border_width
                 row = max(
                     border_width,
-                    min(max_y - frame_height - border_width,
-                        row + rows_change)
+                    min(max_frame_y, row + rows_change)
                 )
+
+            elif columns_change:
+                columns_change *= speed
+                max_frame_x = max_x - frame_width - border_width
                 column = max(
                     border_width,
-                    min(max_x - frame_width - border_width,
-                        column + columns_change)
+                    min(max_frame_x, column + columns_change)
                 )
 
             draw_frame(canvas, row, column, frame)
             await asyncio.sleep(0)
             draw_frame(canvas, row, column, frame, negative=True)
-

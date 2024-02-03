@@ -1,32 +1,41 @@
 import time
 import curses
+
 from starship.animations import fire, animate_spaceship
 from starship.drawing_tools import create_stars
+from starship.curses_tools import get_max_stars_count
 
-TIC_TIMEOUT = 0.1 * 1
+TIC_TIMEOUT = 0.1
 
 
 def draw_border(canvas):
+    """Draws border"""
     canvas.border()
 
 
 def draw(canvas):
-    stars_count = 100
+    """Draws blinking stars and flying starship"""
+    stars_count = 150
+    starship_speed = 1
+
+    max_stars_count = get_max_stars_count(canvas)
+    stars_count = min(stars_count, max_stars_count)
+
     max_y, max_x = canvas.getmaxyx()
+    mid_row = max_y // 2
+    mid_column = max_x // 2
+
+    coroutines = create_stars(canvas, stars_count)
 
     fire_shot_coroutine = fire(
-        canvas, start_row=max_y // 2, start_column=max_x // 2, rows_speed=-0.9,
+        canvas,
+        start_row=mid_row,
+        start_column=mid_column,
+        rows_speed=-0.9
     )
+    spaceship_coroutine = animate_spaceship(canvas, speed=starship_speed)
 
-    spaceship_coroutine = animate_spaceship(
-        canvas, max_y=max_y, max_x=max_x
-    )
-
-    coroutines = [fire_shot_coroutine, spaceship_coroutine]
-
-    stars = create_stars(canvas, stars_count, max_y, max_x)
-
-    coroutines += stars
+    coroutines += [fire_shot_coroutine, spaceship_coroutine]
 
     while True:
         for coroutine in coroutines.copy():

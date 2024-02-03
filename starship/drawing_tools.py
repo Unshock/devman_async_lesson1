@@ -1,27 +1,46 @@
 from random import choice, randint
+
 from starship.animations import blink
 
 
-def get_random_star_coords(max_y, max_x):
-    return randint(1, max_y - 2), randint(1, max_x - 2)
+def get_random_star_coords(canvas, border_width=1) -> tuple:
+    """Gets random star coord taking canvas size and border into account"""
+
+    max_y, max_x = canvas.getmaxyx()
+    return randint(border_width, max_y - border_width - 1), \
+        randint(border_width, max_x - border_width - 1)
 
 
-def get_random_star_icon():
+def get_random_star_icon() -> str:
+    """Gets random icon for the blinking star"""
+
     icons = ['+', '*', '.', ':']
     return choice(icons)
 
 
-def create_stars(canvas, stars_count, max_y, max_x) -> list:
+def get_random_blink_delay(min_delay=1, max_delay=50) -> int:
+    """Gets random blink delay for the star for async coroutines"""
+
+    return randint(min_delay, max_delay)
+
+
+def create_stars(canvas, stars_count) -> list:
+    """Creates list of stars coroutines without overlapping"""
+
     stars_list = []
+    stars_coords = []
 
-    for _ in range(stars_count):
-        row, col = get_random_star_coords(max_y, max_x)
+    while len(stars_coords) < stars_count:
+        row, col = get_random_star_coords(canvas)
+
+        if (row, col) in stars_coords:
+            continue
+
+        stars_coords.append((row, col))
+
         icon = get_random_star_icon()
-        start_pause = randint(1, 50)
-        star_coroutine = blink(
-            canvas, row, col, symbol=icon, start_pause=start_pause
-        )
-
+        delay = get_random_blink_delay()
+        star_coroutine = blink(canvas, row, col, symbol=icon, delay=delay)
         stars_list.append(star_coroutine)
 
     return stars_list
