@@ -1,9 +1,9 @@
 import time
 import curses
 
-from starship.animations import fire, animate_spaceship
-from starship.drawing_tools import create_stars
-from starship.curses_tools import get_max_stars_count
+from animations import fire, animate_spaceship
+from drawing_tools import create_stars
+from curses_tools import get_max_stars_count
 
 TIC_TIMEOUT = 0.1
 
@@ -46,9 +46,9 @@ def draw(canvas):
         for coroutine in coroutines.copy():
             try:
                 coroutine.send(None)
-                canvas.refresh()
             except StopIteration:
                 coroutines.remove(fire_shot_coroutine)
+        canvas.refresh()
         time.sleep(TIC_TIMEOUT)
 
 

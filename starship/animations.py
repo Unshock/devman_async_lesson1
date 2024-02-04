@@ -3,8 +3,8 @@ import curses
 import itertools
 import asyncio
 
-from starship.common_tools import read_from_file
-from starship.curses_tools import read_controls, get_frame_size, draw_frame
+from common_tools import read_from_file
+from curses_tools import read_controls, get_frame_size, draw_frame
 
 
 async def fire(canvas, start_row, start_column, rows_speed=-0.3,

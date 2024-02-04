@@ -1,6 +1,6 @@
 from random import choice, randint
 
-from starship.animations import blink
+from animations import blink
 
 
 def get_random_star_coords(canvas, border_width=1) -> tuple:
